@@ -4,7 +4,7 @@ import time
 os.system("clear")# limpa o terminal
 
 print('\t====tabuada====')
-numero = int(input("digite um numero:"))
+numero = int(input("digite um numero"))
 print('\n tabuada de', numero, ':')
 for i in range(1,11):
     print(numero, 'x', 1, '=', (numero * i))
