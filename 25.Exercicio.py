@@ -17,13 +17,12 @@ while True:
         print(f" e a sua media aritmetica é: {media}")
         print()
         if media >=7:
-
-            print("_______________aprovado_______________")
             print()
-        elif media == 5:
+        elif media == 5:print("_______________aprovado_____
 
-            print("_______________aprovado_______________")
+            print("_______________reprovados_______________")
             print()
 
+        
             
     
