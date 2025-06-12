@@ -1,0 +1,27 @@
+a=int(input("digite o primeiro numero: "))
+
+operacao = input("digite a operação desejada: ")
+
+b=int(input("digite o segundo numero: "))
+
+import os 
+os.system("clear")
+
+match operacao:
+    case "+":
+        resultado = a + b
+    case "-":
+        resultado = a - b
+    case "/":
+        resultado = a / b
+    case "*":
+        resultado = a * b
+    case _:
+        print("opção inválida. ")
+
+print()
+print(f"primeira numero: {a}")
+print(f"operação: {operacao}")
+print(f"segundo numero: numero: {b}")
+print(f"primeiro numero: {a}")
+print(f"resultado: {resultado}")
