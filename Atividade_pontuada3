@@ -1,0 +1,82 @@
+import os
+from dataclasses import dataclass
+os.system("cls || clear")
+
+class Funcionario:
+    def __init__(self, matricula, senha, salario_base, dependentes, recebe_vt, valor_vr):
+        self.matricula = matricula
+        self.senha = senha
+        self.salario_base = salario_base
+        self.dependentes = dependentes
+        self.recebe_vt = recebe_vt
+        self.valor_vr = valor_vr
+
+    def calcular_inss(self):
+        teto = 8157.41
+        salario = min(self.salario_base, teto)
+        if salario <= 1518.00:
+            desconto = salario * 0.075
+        elif salario <= 2793.88:
+            desconto = salario * 0.09 - 113.85
+        elif salario <= 4190.83:
+            desconto = salario * 0.12 - 189.54
+        else:
+            desconto = salario * 0.14 - 318.38
+        return max(desconto, 0)
+
+    def calcular_irrf(self):
+        deducao_dependentes = self.dependentes * 189.59
+        base = self.salario_base - deducao_dependentes
+
+        if base <= 2259.20:
+            return 0.0
+        elif base <= 2826.65:
+            return max(base * 0.075 - 169.44, 0)
+        elif base <= 3751.05:
+            return max(base * 0.15 - 381.44, 0)
+        elif base <= 4664.68:
+            return max(base * 0.225 - 662.77, 0)
+        else:
+            return max(base * 0.275 - 896.00, 0)
+
+    def desconto_vale_transporte(self):
+        return self.salario_base * 0.06 if self.recebe_vt else 0.0
+
+    def desconto_vale_refeicao(self):
+        return self.valor_vr * 0.20
+
+    def desconto_plano_saude(self):
+        return self.dependentes * 150.00
+
+    def calcular_salario_liquido(self):
+        inss = self.calcular_inss()
+        irrf = self.calcular_irrf()
+        vt = self.desconto_vale_transporte()
+        vr = self.desconto_vale_refeicao()
+        plano = self.desconto_plano_saude()
+        return self.salario_base - inss - irrf - vt - vr - plano
+
+
+def main():
+    print("=== Sistema Folha de Pagamento ===")
+    matricula = input("Matrícula: ")
+    senha = input("Senha: ")
+
+    salario = float(input("Salário base (R$): "))
+    recebe_vt = input("Recebe vale transporte? (s/n): ").lower() == 's'
+    valor_vr = float(input("Valor do vale refeição (R$): "))
+    dependentes = int(input("Número de dependentes: "))
+
+    func = Funcionario(matricula, senha, salario, dependentes, recebe_vt, valor_vr)
+
+    print("\n=== Resultado ===")
+    print(f"INSS: R$ {func.calcular_inss():.2f}")
+    print(f"IRRF: R$ {func.calcular_irrf():.2f}")
+    print(f"Vale Transporte: R$ {func.desconto_vale_transporte():.2f}")
+    print(f"Vale Refeição: R$ {func.desconto_vale_refeicao():.2f}")
+    print(f"Plano de Saúde: R$ {func.desconto_plano_saude():.2f}")
+    print(f"Salário Líquido: R$ {func.calcular_salario_liquido():.2f}")
+
+
+if __name__ == "__main__":
+    main()
